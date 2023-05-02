@@ -13,7 +13,6 @@ Docker containers for [vaultwarden](https://github.com/dani-garcia/vaultwarden) 
 <br>
 
 
-
 ## Rename
 
 **Unofficial Bitwarden compatible server written in Rust, formerly known as `bitwarden_rs`, renamed to `vaultwarden`.**
