@@ -31,13 +31,6 @@ jobs:
           username: ${{ secrets.DOCKERHUB_USERNAME }}
           password: ${{ secrets.DOCKERHUB_TOKEN }}
       -
-        name: Login to ghcr.io
-        uses: docker/login-action@v2
-        with:
-          registry: ghcr.io
-          username: ${{ github.actor }}
-          password: ${{ secrets.GITHUB_TOKEN }}
-      -
         name: Build and push
         uses: docker/build-push-action@v4
         with:
@@ -48,5 +41,3 @@ jobs:
           tags: |
             ${{ secrets.DOCKERHUB_USERNAME }}/rclone-m2m-backup:latest
             ${{ secrets.DOCKERHUB_USERNAME }}/rclone-m2m-backup:${{ env.TAG }}
-            ghcr.io/${{ secrets.DOCKERHUB_USERNAME }}/rclone-m2m-backup:latest
-            ghcr.io/${{ secrets.DOCKERHUB_USERNAME }}/rclone-m2m-backup:${{ env.TAG }}
