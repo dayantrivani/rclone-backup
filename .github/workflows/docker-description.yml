@@ -3,7 +3,7 @@ name: 'Docker Publish Description'
 on:
   push:
     branches:
-      - master
+      - m2m
     paths:
       - README.md
       - .github/workflows/docker-description.yml
@@ -24,11 +24,4 @@ jobs:
         with:
           username: ${{ secrets.DOCKERHUB_USERNAME }}
           password: ${{ secrets.DOCKERHUB_PASSWORD }}
-          repository: 'ttionya/vaultwarden-backup'
-      -
-        name: DockerHub Description
-        uses: peter-evans/dockerhub-description@v3
-        with:
-          username: ${{ secrets.DOCKERHUB_USERNAME }}
-          password: ${{ secrets.DOCKERHUB_PASSWORD }}
-          repository: 'ttionya/bitwardenrs-backup'
+          repository: '${{ secrets.DOCKERHUB_USERNAME }}/rclone-m2m-backup'
