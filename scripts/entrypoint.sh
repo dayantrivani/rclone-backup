@@ -26,16 +26,6 @@ if [[ "$1" == "mail" ]]; then
     exit 0
 fi
 
-# restore
-if [[ "$1" == "restore" ]]; then
-    . /app/restore.sh
-
-    shift
-    restore $*
-
-    exit 0
-fi
-
 function configure_timezone() {
     ln -sf "/usr/share/zoneinfo/${TIMEZONE}" "${LOCALTIME_FILE}"
 }
@@ -48,8 +38,6 @@ function configure_cron() {
 }
 
 init_env
-check_rclone_connection
-configure_postgresql
 configure_timezone
 configure_cron
 

@@ -26,38 +26,6 @@ function color() {
 }
 
 ########################################
-# Check storage system connection success.
-# Arguments:
-#     None
-########################################
-function check_rclone_connection() {
-    # check configuration exist
-    rclone ${RCLONE_GLOBAL_FLAG} config show "${RCLONE_REMOTE_NAME}" > /dev/null 2>&1
-    if [[ $? != 0 ]]; then
-        color red "rclone configuration information not found"
-        color blue "Please configure rclone first, check https://github.com/ttionya/vaultwarden-backup/blob/master/README.md#backup"
-        exit 1
-    fi
-
-    # check connection
-    local HAS_ERROR="FALSE"
-
-    for RCLONE_REMOTE_X in "${RCLONE_REMOTE_LIST[@]}"
-    do
-        rclone ${RCLONE_GLOBAL_FLAG} mkdir "${RCLONE_REMOTE_X}"
-        if [[ $? != 0 ]]; then
-            color red "storage system connection failure $(color yellow "[${RCLONE_REMOTE_X}]")"
-
-            HAS_ERROR="TRUE"
-        fi
-    done
-
-    if [[ "${HAS_ERROR}" == "TRUE" ]]; then
-        exit 1
-    fi
-}
-
-########################################
 # Check file is exist.
 # Arguments:
 #     file
@@ -139,18 +107,6 @@ function send_ping() {
         color red "ping sending failed"
     else
         color blue "ping send was successfully"
-    fi
-}
-
-########################################
-# Configure PostgreSQL password file.
-# Arguments:
-#     None
-########################################
-function configure_postgresql() {
-    if [[ "${DB_TYPE}" == "POSTGRESQL" ]]; then
-        echo "${PG_HOST}:${PG_PORT}:${PG_DBNAME}:${PG_USERNAME}:${PG_PASSWORD}" > ~/.pgpass
-        chmod 0600 ~/.pgpass
     fi
 }
 
@@ -238,6 +194,40 @@ function get_rclone_remote_list() {
 }
 
 ########################################
+# Get RCLONE_SOURCE_LIST variables.
+# Arguments:
+#     None
+# Outputs:
+#     variable value
+########################################
+function get_rclone_source_list() {
+    # RCLONE_SOURCE_LIST
+    RCLONE_SOURCE_LIST=()
+
+    local i=0
+    local RCLONE_SOURCE_NAME_X_REFER
+    local RCLONE_SOURCE_DIR_X_REFER
+    local RCLONE_SOURCE_X
+
+    # for multiple
+    while true; do
+        RCLONE_SOURCE_NAME_X_REFER="RCLONE_SOURCE_NAME_${i}"
+        RCLONE_SOURCE_DIR_X_REFER="RCLONE_SOURCE_DIR_${i}"
+        get_env "${RCLONE_SOURCE_NAME_X_REFER}"
+        get_env "${RCLONE_SOURCE_DIR_X_REFER}"
+
+        if [[ -z "${!RCLONE_SOURCE_NAME_X_REFER}" || -z "${!RCLONE_SOURCE_DIR_X_REFER}" ]]; then
+            break
+        fi
+
+        RCLONE_SOURCE_X=$(echo "${!RCLONE_SOURCE_NAME_X_REFER}:${!RCLONE_SOURCE_DIR_X_REFER}" | sed 's@\(/*\)$@@')
+        RCLONE_SOURCE_LIST=(${RCLONE_SOURCE_LIST[@]} "${RCLONE_SOURCE_X}")
+
+        ((i++))
+    done
+}
+
+########################################
 # Initialization environment variables.
 # Arguments:
 #     None
@@ -248,8 +238,6 @@ function init_env() {
     # export
     export_env_file
 
-    init_env_dir
-    init_env_db
     init_env_mail
 
     # CRON
@@ -266,45 +254,15 @@ function init_env() {
     RCLONE_REMOTE_DIR="${RCLONE_REMOTE_DIR:-"/BitwardenBackup/"}"
     RCLONE_REMOTE_DIR_0="${RCLONE_REMOTE_DIR}"
 
+    # get RCLONE_SOURCE_LIST
+    get_rclone_source_list
+
     # get RCLONE_REMOTE_LIST
     get_rclone_remote_list
 
     # RCLONE_GLOBAL_FLAG
     get_env RCLONE_GLOBAL_FLAG
     RCLONE_GLOBAL_FLAG="${RCLONE_GLOBAL_FLAG:-""}"
-
-    # ZIP_ENABLE
-    get_env ZIP_ENABLE
-    ZIP_ENABLE=$(echo "${ZIP_ENABLE}" | tr '[a-z]' '[A-Z]')
-    if [[ "${ZIP_ENABLE}" == "FALSE" ]]; then
-        ZIP_ENABLE="FALSE"
-    else
-        ZIP_ENABLE="TRUE"
-    fi
-
-    # ZIP_PASSWORD
-    get_env ZIP_PASSWORD
-    ZIP_PASSWORD="${ZIP_PASSWORD:-"WHEREISMYPASSWORD?"}"
-
-    # ZIP_TYPE
-    get_env ZIP_TYPE
-    ZIP_TYPE=$(echo "${ZIP_TYPE}" | tr '[A-Z]' '[a-z]')
-    if [[ "${ZIP_TYPE}" == "7z" ]]; then
-        ZIP_TYPE="7z"
-    else
-        ZIP_TYPE="zip"
-    fi
-
-    # BACKUP_KEEP_DAYS
-    get_env BACKUP_KEEP_DAYS
-    BACKUP_KEEP_DAYS="${BACKUP_KEEP_DAYS:-"0"}"
-
-    # BACKUP_FILE_DATE_FORMAT
-    get_env BACKUP_FILE_SUFFIX
-    get_env BACKUP_FILE_DATE
-    get_env BACKUP_FILE_DATE_SUFFIX
-    BACKUP_FILE_DATE="$(echo "${BACKUP_FILE_DATE:-"%Y%m%d"}${BACKUP_FILE_DATE_SUFFIX}" | sed 's/[^0-9a-zA-Z%_-]//g')"
-    BACKUP_FILE_DATE_FORMAT="$(echo "${BACKUP_FILE_SUFFIX:-"${BACKUP_FILE_DATE}"}" | sed 's/\///g')"
 
     # PING_URL
     get_env PING_URL
@@ -318,24 +276,12 @@ function init_env() {
     fi
 
     color yellow "========================================"
-    color yellow "DATA_DIR: ${DATA_DIR}"
-    color yellow "DATA_CONFIG: ${DATA_CONFIG}"
-    color yellow "DATA_RSAKEY: ${DATA_RSAKEY}"
-    color yellow "DATA_ATTACHMENTS: ${DATA_ATTACHMENTS}"
-    color yellow "DATA_SENDS: ${DATA_SENDS}"
-    color yellow "========================================"
-    color yellow "DB_TYPE: ${DB_TYPE}"
-
-    if [[ "${DB_TYPE}" == "POSTGRESQL" ]]; then
-        color yellow "DB_URL: postgresql://${PG_USERNAME}:***(${#PG_PASSWORD} Chars)@${PG_HOST}:${PG_PORT}/${PG_DBNAME}"
-    elif [[ "${DB_TYPE}" == "MYSQL" ]]; then
-        color yellow "DB_URL: mysql://${MYSQL_USERNAME}:***(${#MYSQL_PASSWORD} Chars)@${MYSQL_HOST}:${MYSQL_PORT}/${MYSQL_DATABASE}"
-    else
-        color yellow "DATA_DB: ${DATA_DB}"
-    fi
-
-    color yellow "========================================"
     color yellow "CRON: ${CRON}"
+
+    for RCLONE_SOURCE_X in "${RCLONE_SOURCE_LIST[@]}"
+    do
+        color yellow "RCLONE_SOURCE: ${RCLONE_SOURCE_X}"
+    done
 
     for RCLONE_REMOTE_X in "${RCLONE_REMOTE_LIST[@]}"
     do
@@ -343,11 +289,6 @@ function init_env() {
     done
 
     color yellow "RCLONE_GLOBAL_FLAG: ${RCLONE_GLOBAL_FLAG}"
-    color yellow "ZIP_ENABLE: ${ZIP_ENABLE}"
-    color yellow "ZIP_PASSWORD: ${#ZIP_PASSWORD} Chars"
-    color yellow "ZIP_TYPE: ${ZIP_TYPE}"
-    color yellow "BACKUP_FILE_DATE_FORMAT: ${BACKUP_FILE_DATE_FORMAT} (example \"[filename].$(date +"${BACKUP_FILE_DATE_FORMAT}").[ext]\")"
-    color yellow "BACKUP_KEEP_DAYS: ${BACKUP_KEEP_DAYS}"
     if [[ -n "${PING_URL}" ]]; then
         color yellow "PING_URL: ${PING_URL}"
     fi
@@ -359,87 +300,6 @@ function init_env() {
     fi
     color yellow "TIMEZONE: ${TIMEZONE}"
     color yellow "========================================"
-}
-
-function init_env_dir() {
-    # DATA_DIR
-    get_env DATA_DIR
-    DATA_DIR="${DATA_DIR:-"/bitwarden/data"}"
-    check_dir_exist "${DATA_DIR}"
-
-    # DATA_DB
-    get_env DATA_DB
-    DATA_DB="${DATA_DB:-"${DATA_DIR}/db.sqlite3"}"
-
-    # DATA_CONFIG
-    DATA_CONFIG="${DATA_DIR}/config.json"
-
-    # DATA_RSAKEY
-    get_env DATA_RSAKEY
-    DATA_RSAKEY="${DATA_RSAKEY:-"${DATA_DIR}/rsa_key"}"
-    DATA_RSAKEY_DIRNAME="$(dirname "${DATA_RSAKEY}")"
-    DATA_RSAKEY_BASENAME="$(basename "${DATA_RSAKEY}")"
-
-    # DATA_ATTACHMENTS
-    get_env DATA_ATTACHMENTS
-    DATA_ATTACHMENTS="$(dirname "${DATA_ATTACHMENTS:-"${DATA_DIR}/attachments"}/useless")"
-    DATA_ATTACHMENTS_DIRNAME="$(dirname "${DATA_ATTACHMENTS}")"
-    DATA_ATTACHMENTS_BASENAME="$(basename "${DATA_ATTACHMENTS}")"
-
-    # DATA_SEND
-    get_env DATA_SENDS
-    DATA_SENDS="$(dirname "${DATA_SENDS:-"${DATA_DIR}/sends"}/useless")"
-    DATA_SENDS_DIRNAME="$(dirname "${DATA_SENDS}")"
-    DATA_SENDS_BASENAME="$(basename "${DATA_SENDS}")"
-}
-
-function init_env_db() {
-    # DB_TYPE
-    get_env DB_TYPE
-
-    if [[ "${DB_TYPE^^}" == "POSTGRESQL" ]]; then # postgresql
-        DB_TYPE="POSTGRESQL"
-
-        # PG_HOST
-        get_env PG_HOST
-
-        # PG_PORT
-        get_env PG_PORT
-        PG_PORT="${PG_PORT:-"5432"}"
-
-        # PG_DBNAME
-        get_env PG_DBNAME
-        PG_DBNAME="${PG_DBNAME:-"vaultwarden"}"
-
-        # PG_USERNAME
-        get_env PG_USERNAME
-        PG_USERNAME="${PG_USERNAME:-"vaultwarden"}"
-
-        # PG_PASSWORD
-        get_env PG_PASSWORD
-    elif [[ "${DB_TYPE^^}" == "MYSQL" ]]; then # mysql
-        DB_TYPE="MYSQL"
-
-        # MYSQL_HOST
-        get_env MYSQL_HOST
-
-        # MYSQL_PORT
-        get_env MYSQL_PORT
-        MYSQL_PORT="${MYSQL_PORT:-"3306"}"
-
-        # MYSQL_DATABASE
-        get_env MYSQL_DATABASE
-        MYSQL_DATABASE="${MYSQL_DATABASE:-"vaultwarden"}"
-
-        # MYSQL_USERNAME
-        get_env MYSQL_USERNAME
-        MYSQL_USERNAME="${MYSQL_USERNAME:-"vaultwarden"}"
-
-        # MYSQL_PASSWORD
-        get_env MYSQL_PASSWORD
-    else # sqlite
-        DB_TYPE="SQLITE"
-    fi
 }
 
 function init_env_mail() {
