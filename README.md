@@ -101,8 +101,6 @@ environment:
 
 With the above example, `source:/sourcedir/` will be synced to both remote destinations: `remote1:/remote1dir/` and `extraRemoteName1:extraRemoteDir1`.
 
-<br>
-
 ```yml
 ...
 environment:
@@ -122,8 +120,6 @@ environment:
 ```
 
 With the above example, all 5 remote destinations are available.
-
-<br>
 
 ```yml
 ...
@@ -258,7 +254,7 @@ The only difference is that the environment variable `CRON` does not work becaus
 
 ## Changelog
 
-Check out the [CHANGELOG](CHANGELOG.md) file.
+Check out the [CHANGELOG](https://github.com/dayantrivani/rclone-backup/blob/master/CHANGELOG.md) file.
 
 ## License
 
