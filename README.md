@@ -42,7 +42,7 @@ docker run --rm -it \
   rclone config show
 
 # Microsoft Onedrive Example
-# [BitwardenBackup]
+# [SourceBackup]
 # type = onedrive
 # token = {"access_token":"access token","token_type":"token type","refresh_token":"refresh token","expiry":"expiry time"}
 # drive_id = driveid
@@ -74,7 +74,7 @@ docker run --rm -it \
   huzgrisyon/rclone-m2m-backup:latest \
   rclone config show
 
-# [BitwardenBackup] <- this
+# [SourceBackup] <- this
 # ...
 ```
 

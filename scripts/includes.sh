@@ -243,17 +243,7 @@ function init_env() {
     # CRON
     get_env CRON
     CRON="${CRON:-"5 * * * *"}"
-
-    # RCLONE_REMOTE_NAME
-    get_env RCLONE_REMOTE_NAME
-    RCLONE_REMOTE_NAME="${RCLONE_REMOTE_NAME:-"BitwardenBackup"}"
-    RCLONE_REMOTE_NAME_0="${RCLONE_REMOTE_NAME}"
-
-    # RCLONE_REMOTE_DIR
-    get_env RCLONE_REMOTE_DIR
-    RCLONE_REMOTE_DIR="${RCLONE_REMOTE_DIR:-"/BitwardenBackup/"}"
-    RCLONE_REMOTE_DIR_0="${RCLONE_REMOTE_DIR}"
-
+    
     # get RCLONE_SOURCE_LIST
     get_rclone_source_list
 

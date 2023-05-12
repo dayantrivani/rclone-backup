@@ -1,8 +1,8 @@
 # Changelog
 
-## v0.1.0 (20230512)
+## v0.1.1 (20230512)
 
-chore: initial release
+chore: minor update
 
 ## v0.0.9 (20230511)
 
