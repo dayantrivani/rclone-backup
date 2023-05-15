@@ -9,7 +9,7 @@ Docker container for sync multiple sources to multiple destinations using rclone
 
 ## Feature
 
-This tool supports backing up multiple sources to multiple destinations using rclone.
+This tool supports backing up multiple sources to multiple destinations via rclone.
 
 And the following ways of notifying sync results are supported.
 
@@ -22,11 +22,11 @@ And the following ways of notifying sync results are supported.
 
 > **For backup, you need to configure Rclone first, otherwise the sync tool will not work.**
 
-The tool perform [Rclone](https://rclone.org/) [sync](https://rclone.org/commands/rclone_sync/).
+The tool performs [Rclone](https://rclone.org/) [sync](https://rclone.org/commands/rclone_sync/).
 
 #### Configure and Check
 
-You can set rclone by the following command.
+You can set rclone up by the following command.
 
 ```shell
 docker run --rm -it \
@@ -51,7 +51,7 @@ docker run --rm -it \
 
 ### Automatic sync
 
-Start the container with default settings. (automatic backup at 5 minute every hour)
+Start the container with some settings. (See variables below, automatic backup at 5 minute every hour)
 
 ```shell
 docker run -d \
@@ -78,7 +78,7 @@ docker run --rm -it \
 # ...
 ```
 
-You can set multiple sources and remotes, each source will be synced to every remote. To do that, use the environment variables `RCLONE_SOURCE_NAME_N` ,`RCLONE_SOURCE_DIR_N` and `RCLONE_SOURCE_DESC_N`  as well as `RCLONE_REMOTE_NAME_N` and `RCLONE_REMOTE_DIR_N`, where:
+You can set multiple sources and remotes, each source will be synced to each remote. To do that, use the environment variables `RCLONE_SOURCE_NAME_N` ,`RCLONE_SOURCE_DIR_N` and `RCLONE_SOURCE_DESC_N`  as well as `RCLONE_REMOTE_NAME_N` and `RCLONE_REMOTE_DIR_N`, where:
 
 - `N` is a serial number, starting from 0 and increasing consecutively for each source and destination
 - they cannot be empty
