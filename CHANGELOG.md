@@ -1,6 +1,6 @@
 # Changelog
 
-## v0.1.2 (20230515)
+## v0.1.3 (20230515)
 
 chore: bug fixes
 

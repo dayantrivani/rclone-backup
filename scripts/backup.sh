@@ -6,13 +6,13 @@ function sync() {
     local HAS_ERROR="FALSE"
 
     for RCLONE_SOURCE_X in "${RCLONE_SOURCE_LIST[@]}"
-    IFS='|' read -r RCLONE_SOURCE_NAME_X RCLONE_SOURCE_DESC_X <<< "$RCLONE_SOURCE_X"
     do
+    IFS='|' read -r RCLONE_SOURCE_NAME_X RCLONE_SOURCE_DESC_X <<< "$RCLONE_SOURCE_X"
         for RCLONE_REMOTE_X in "${RCLONE_REMOTE_LIST[@]}"
         do
             color blue "sync source $(color yellow "[${RCLONE_SOURCE_NAME_X}]") to remote $(color yellow "[${RCLONE_REMOTE_X}${RCLONE_SOURCE_DESC_X}/]")"
 
-            rclone ${RCLONE_GLOBAL_FLAG} sync "${RCLONE_SOURCE_X}" "${RCLONE_REMOTE_X}${RCLONE_REMOTE_X}${RCLONE_SOURCE_DESC_X}/"
+            rclone ${RCLONE_GLOBAL_FLAG} sync "${RCLONE_SOURCE_NAME_X}" "${RCLONE_REMOTE_X}${RCLONE_SOURCE_DESC_X}/"
             if [[ $? != 0 ]]; then
                 color red "sync failed"
 
