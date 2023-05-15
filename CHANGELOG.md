@@ -1,5 +1,9 @@
 # Changelog
 
+## v0.1.2 (20230515)
+
+chore: bug fixes
+
 ## v0.1.1 (20230512)
 
 chore: minor update

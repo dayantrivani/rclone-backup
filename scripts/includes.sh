@@ -207,20 +207,23 @@ function get_rclone_source_list() {
     local i=0
     local RCLONE_SOURCE_NAME_X_REFER
     local RCLONE_SOURCE_DIR_X_REFER
+    local RCLONE_SOURCE_DESC_X_REFER
     local RCLONE_SOURCE_X
 
     # for multiple
     while true; do
         RCLONE_SOURCE_NAME_X_REFER="RCLONE_SOURCE_NAME_${i}"
         RCLONE_SOURCE_DIR_X_REFER="RCLONE_SOURCE_DIR_${i}"
+        RCLONE_SOURCE_DESC_X_REFER="RCLONE_SOURCE_DESC_${i}"
         get_env "${RCLONE_SOURCE_NAME_X_REFER}"
         get_env "${RCLONE_SOURCE_DIR_X_REFER}"
+        get_env "${RCLONE_SOURCE_DESC_X_REFER}"
 
-        if [[ -z "${!RCLONE_SOURCE_NAME_X_REFER}" || -z "${!RCLONE_SOURCE_DIR_X_REFER}" ]]; then
+        if [[ -z "${!RCLONE_SOURCE_NAME_X_REFER}" || -z "${!RCLONE_SOURCE_DIR_X_REFER}" || -z "${!RCLONE_SOURCE_DESC_X_REFER}" ]]; then
             break
         fi
 
-        RCLONE_SOURCE_X=$(echo "${!RCLONE_SOURCE_NAME_X_REFER}:${!RCLONE_SOURCE_DIR_X_REFER}" | sed 's@\(/*\)$@@')
+        RCLONE_SOURCE_X=$(echo "${!RCLONE_SOURCE_NAME_X_REFER}:${!RCLONE_SOURCE_DIR_X_REFER}|${!RCLONE_SOURCE_DESC_X_REFER}" | sed 's@\(/*\)$@@')
         RCLONE_SOURCE_LIST=(${RCLONE_SOURCE_LIST[@]} "${RCLONE_SOURCE_X}")
 
         ((i++))

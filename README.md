@@ -78,10 +78,10 @@ docker run --rm -it \
 # ...
 ```
 
-You can set multiple sources and remotes, each source will be synced to every remote. To do that, use the environment variables `RCLONE_SOURCE_NAME_N` and `RCLONE_SOURCE_DIR_N` as well as `RCLONE_REMOTE_NAME_N` and `RCLONE_REMOTE_DIR_N`, where:
+You can set multiple sources and remotes, each source will be synced to every remote. To do that, use the environment variables `RCLONE_SOURCE_NAME_N` ,`RCLONE_SOURCE_DIR_N` and `RCLONE_SOURCE_DESC_N`  as well as `RCLONE_REMOTE_NAME_N` and `RCLONE_REMOTE_DIR_N`, where:
 
 - `N` is a serial number, starting from 0 and increasing consecutively for each source and destination
-- `RCLONE_SOURCE_NAME_N` and `RCLONE_SOURCE_DIR_N`; `RCLONE_REMOTE_NAME_N` and `RCLONE_REMOTE_DIR_N` cannot be empty
+- they cannot be empty
 
 Note that if the serial number is not consecutive or the value is empty, the script will break parsing the environment variables.
 
@@ -92,20 +92,25 @@ Note that if the serial number is not consecutive or the value is empty, the scr
 environment:
   RCLONE_SOURCE_NAME_0: source
   RCLONE_SOURCE_DIR_0: /sourcedir/
-  RCLONE_REMOTE_NAME_0: remote1
-  RCLONE_REMOTE_DIR_0: /remote1dir/
-  RCLONE_REMOTE_NAME_1: extraRemoteName1
-  RCLONE_REMOTE_DIR_1: extraRemoteDir1
+  RCLONE_SOURCE_DESC_0: sourcedescription
+  RCLONE_SOURCE_NAME_1: source1
+  RCLONE_SOURCE_DIR_1: /source1dir/
+  RCLONE_SOURCE_DESC_1: source1description
+  RCLONE_REMOTE_NAME_0: remote
+  RCLONE_REMOTE_DIR_0: /remotedir/
+  RCLONE_REMOTE_NAME_1: remote1
+  RCLONE_REMOTE_DIR_1: /remote1dir/
 ...
 ```
 
-With the above example, `source:/sourcedir/` will be synced to both remote destinations: `remote1:/remote1dir/` and `extraRemoteName1:extraRemoteDir1`.
+With the above example, `source:/sourcedir/` will be synced to both remote destinations: `remote:/remotedir/sourcedescription/` and `remote1:/remote1dir/sourcedescription/`,after that, `source1:/source1dir/` will be synced to both remote destinations: `remote:/remotedir/source1description/` and `remote1:/remote1dir/source1description/`
 
 ```yml
 ...
 environment:
   RCLONE_SOURCE_NAME_0: source
   RCLONE_SOURCE_DIR_0: /sourcedir/
+  RCLONE_SOURCE_DESC_0: sourcedescription
   RCLONE_REMOTE_NAME_0: remote1
   RCLONE_REMOTE_DIR_0: /remote1dir/
   RCLONE_REMOTE_NAME_1: extraRemoteName1
@@ -126,6 +131,7 @@ With the above example, all 5 remote destinations are available.
 environment:
   RCLONE_SOURCE_NAME_0: source
   RCLONE_SOURCE_DIR_0: /sourcedir/
+  RCLONE_SOURCE_DESC_0: sourcedescription
   RCLONE_REMOTE_NAME_0: remote1
   RCLONE_REMOTE_DIR_0: /remote1dir/
   RCLONE_REMOTE_NAME_1: extraRemoteName1
