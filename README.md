@@ -51,7 +51,7 @@ docker run --rm -it \
 
 ### Automatic sync
 
-Start the container with some settings. (See variables below, automatic backup at 5 minute every hour)
+Start the container with some settings. (See variables below, default to automatic backup at 5 minute every hour)
 
 ```shell
 docker run -d \
