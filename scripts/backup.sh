@@ -35,6 +35,13 @@ function sync() {
 
 color blue "running the sync program at $(date +"%Y-%m-%d %H:%M:%S %Z")"
 
+# Check if this script is already running
+if [ `lsof | grep $0 | wc -l | tr -d ' '` -gt 1 ]
+then
+    color red "WARNING: A previous sync is still running. Skipping new backup."
+    exit 1
+fi
+
 init_env
 sync
 

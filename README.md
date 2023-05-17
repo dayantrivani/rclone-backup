@@ -81,8 +81,8 @@ docker run --rm -it \
 You can set multiple sources and remotes, each source will be synced to each remote. To do that, use the environment variables `RCLONE_SOURCE_NAME_N` ,`RCLONE_SOURCE_DIR_N` and `RCLONE_SOURCE_DESC_N`  as well as `RCLONE_REMOTE_NAME_N` and `RCLONE_REMOTE_DIR_N`, where:
 
 - `N` is a serial number, starting from 0 and increasing consecutively for each source and destination
-- they cannot be empty
-- they cannot contain these characters: `:,()`
+- They cannot be empty
+- They cannot contain these characters: `:,()`
 
 Note that if the serial number is not consecutive or the value is empty, the script will break parsing the environment variables.
 
@@ -105,6 +105,7 @@ environment:
 ```
 
 With the above example, `source:/sourcedir/` will be synced to both remote destinations: `remote:/remotedir/sourcedescription/` and `remote1:/remote1dir/sourcedescription/`, after that, `source1:/source1dir/` will be synced to both remote destinations: `remote:/remotedir/source1description/` and `remote1:/remote1dir/source1description/`
+Note that if the source directory `source:/sourcedir/` is empty, after the sync process, the destination directory `remote:/remotedir/sourcedescription/` will be empty too. Use with caution.
 
 ```yml
 ...
