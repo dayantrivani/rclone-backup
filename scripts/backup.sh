@@ -7,7 +7,11 @@ function sync() {
 
     for RCLONE_SOURCE_X in "${RCLONE_SOURCE_LIST[@]}"
     do
-    IFS='|' read -r RCLONE_SOURCE_NAME_X RCLONE_SOURCE_DESC_X <<< "$RCLONE_SOURCE_X"
+    regex="\(([^)]+)\)" # match every letter inside brackets()
+    if [[ $RCLONE_SOURCE_X =~ $regex ]]; then
+        RCLONE_SOURCE_DESC_X=${BASH_REMATCH[1]} # capture the matched string
+        RCLONE_SOURCE_NAME_X=${RCLONE_SOURCE_X/($inside_brackets)/}
+    fi
         for RCLONE_REMOTE_X in "${RCLONE_REMOTE_LIST[@]}"
         do
             color blue "sync source $(color yellow "[${RCLONE_SOURCE_NAME_X}]") to remote $(color yellow "[${RCLONE_REMOTE_X}/${RCLONE_SOURCE_DESC_X}/]")"

@@ -223,7 +223,7 @@ function get_rclone_source_list() {
             break
         fi
 
-        RCLONE_SOURCE_X=$(echo "${!RCLONE_SOURCE_NAME_X_REFER}:${!RCLONE_SOURCE_DIR_X_REFER}|${!RCLONE_SOURCE_DESC_X_REFER}" | sed 's@\(/*\)$@@')
+        RCLONE_SOURCE_X=$(echo "${!RCLONE_SOURCE_NAME_X_REFER}:${!RCLONE_SOURCE_DIR_X_REFER}(${!RCLONE_SOURCE_DESC_X_REFER})" | sed 's@\(/*\)$@@')
         RCLONE_SOURCE_LIST=(${RCLONE_SOURCE_LIST[@]} "${RCLONE_SOURCE_X}")
 
         ((i++))

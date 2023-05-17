@@ -82,6 +82,7 @@ You can set multiple sources and remotes, each source will be synced to each rem
 
 - `N` is a serial number, starting from 0 and increasing consecutively for each source and destination
 - they cannot be empty
+- they cannot contain these characters: `:,()`
 
 Note that if the serial number is not consecutive or the value is empty, the script will break parsing the environment variables.
 
