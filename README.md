@@ -104,7 +104,8 @@ environment:
 ...
 ```
 
-With the above example, `source:/sourcedir/` will be synced to both remote destinations: `remote:/remotedir/sourcedescription/` and `remote1:/remote1dir/sourcedescription/`, after that, `source1:/source1dir/` will be synced to both remote destinations: `remote:/remotedir/source1description/` and `remote1:/remote1dir/source1description/`
+With the above example, `source:/sourcedir/` will be synced to both remote destinations: `remote:/remotedir/sourcedescription/` and `remote1:/remote1dir/sourcedescription/`, after that, `source1:/source1dir/` will be synced to both remote destinations: `remote:/remotedir/source1description/` and `remote1:/remote1dir/source1description/`.
+
 Note that if the source directory `source:/sourcedir/` is empty, after the sync process, the destination directory `remote:/remotedir/sourcedescription/` will be empty too. Use with caution.
 
 ```yml
