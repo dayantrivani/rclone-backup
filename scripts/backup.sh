@@ -10,7 +10,7 @@ function sync() {
     regex="\(([^)]+)\)" # match every letter inside brackets()
     if [[ $RCLONE_SOURCE_X =~ $regex ]]; then
         RCLONE_SOURCE_DESC_X=${BASH_REMATCH[1]} # capture the matched string
-        RCLONE_SOURCE_NAME_X=${RCLONE_SOURCE_X/($inside_brackets)/}
+        RCLONE_SOURCE_NAME_X=${RCLONE_SOURCE_X/($RCLONE_SOURCE_DESC_X)/}
     fi
         for RCLONE_REMOTE_X in "${RCLONE_REMOTE_LIST[@]}"
         do
