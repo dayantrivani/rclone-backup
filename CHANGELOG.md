@@ -1,5 +1,9 @@
 # Changelog
 
+## v1.0.0 (20230606)
+
+chore: document update
+
 ## v0.1.5 (20230515)
 
 chore: bug fixes

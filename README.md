@@ -20,7 +20,7 @@ And the following ways of notifying sync results are supported.
 
 ### Configure Rclone
 
-> **For backup, you need to configure Rclone first, otherwise the sync tool will not work.**
+> **You need to configure Rclone first, otherwise the sync tool will not work.**
 
 The tool performs [Rclone](https://rclone.org/) [sync](https://rclone.org/commands/rclone_sync/).
 
@@ -51,7 +51,7 @@ docker run --rm -it \
 
 ### Automatic sync
 
-Start the container with some settings. (See variables below, default to automatic backup at 5 minute every hour)
+Start the container with custom settings. (See variables below, default to automatic backup at 5 minute every hour)
 
 ```shell
 docker run -d \
@@ -65,7 +65,7 @@ docker run -d \
 
 ### SOURCES and REMOTES
 
-`RCLONE_SOURCE_NAME_X` and `RCLONE_REMOTE_NAME_X` need to be consistent with the name in the rclone config.
+The values of `RCLONE_SOURCE_NAME_X` and `RCLONE_REMOTE_NAME_X` need to be consistent with the name in the rclone config.
 
 You can view the names with the following command.
 
