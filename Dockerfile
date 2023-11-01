@@ -9,7 +9,7 @@ COPY scripts/*.sh /app/
 
 RUN chmod +x /app/*.sh \
   && mkdir -m 777 /bitwarden \
-  && apk add --no-cache 7zip bash heirloom-mailx supercronic tzdata \
+  && apk add --no-cache 7zip bash s-nail supercronic tzdata \
   && ln -sf "${LOCALTIME_FILE}" /etc/localtime \
   && addgroup -g "${USER_ID}" "${USER_NAME}" \
   && adduser -u "${USER_ID}" -Ds /bin/sh -G "${USER_NAME}" "${USER_NAME}"

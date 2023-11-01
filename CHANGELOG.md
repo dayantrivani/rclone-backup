@@ -1,5 +1,11 @@
 # Changelog
 
+## v1.0.2 (20231101)
+
+Feature
+
+- Using `s-nail` instead of `heirloom-mailx` to send emails
+
 ## v1.0.1 (20231101)
 
 Feature

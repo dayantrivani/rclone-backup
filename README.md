@@ -178,7 +178,7 @@ Use [healthcheck.io](https://healthchecks.io/) url or similar cron monitoring to
 
 #### MAIL_SMTP_ENABLE
 
-The tool uses [heirloom-mailx](https://www.systutorials.com/docs/linux/man/1-heirloom-mailx/) to send mail.
+The tool uses [`s-nail`](https://www.sdaoden.eu/code-nail.html) to send mail.
 
 Default: `FALSE`
 
@@ -202,7 +202,7 @@ During testing, we will add the `-v` option to display detailed information.
 -S from=<my-email-address>
 ```
 
-For more information, refer to [here](https://www.systutorials.com/sending-email-from-mailx-command-in-linux-using-gmails-smtp/).
+Console showing warnings? Check [issue #177](https://github.com/ttionya/vaultwarden-backup/issues/117#issuecomment-1691443179) for more details.
 
 #### MAIL_TO
 
