@@ -1,4 +1,4 @@
-FROM rclone/rclone:1.62.2
+FROM rclone/rclone:1.64.2
 
 ARG USER_NAME="m2mbackuptool"
 ARG USER_ID="1100"

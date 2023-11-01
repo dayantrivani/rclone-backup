@@ -1,5 +1,11 @@
 # Changelog
 
+## v1.0.1 (20231101)
+
+Feature
+
+- Update Dockerfile base image to `rclone/rclone:1.64.2`
+
 ## v1.0.0 (20230606)
 
 chore: document update
