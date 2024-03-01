@@ -176,6 +176,10 @@ Default: `UTC`
 
 Use [healthcheck.io](https://healthchecks.io/) url or similar cron monitoring to perform `GET` requests after a **successful** backup.
 
+#### WGET_OPTION
+
+Options used in wget, for example, `-Y on` toggles proxy on for wget in busybox. Call `wget --help` for more information.
+
 #### MAIL_SMTP_ENABLE
 
 The tool uses [`s-nail`](https://www.sdaoden.eu/code-nail.html) to send mail.

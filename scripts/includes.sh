@@ -102,7 +102,7 @@ function send_ping() {
         return
     fi
 
-    wget "${PING_URL}" -T 15 -t 10 -O /dev/null -q
+    wget "${WGET_OPTION}" "${PING_URL}" -T 15 -t 10 -O /dev/null -q
     if [[ $? != 0 ]]; then
         color red "ping sending failed"
     else
@@ -260,6 +260,10 @@ function init_env() {
     # PING_URL
     get_env PING_URL
     PING_URL="${PING_URL:-""}"
+
+    # WGET_OPTION
+    get_env WGET_OPTION
+    WGET_OPTION="${WGET_OPTION:-""}"
 
     # TIMEZONE
     get_env TIMEZONE

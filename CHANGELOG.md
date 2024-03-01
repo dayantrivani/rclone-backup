@@ -1,5 +1,11 @@
 # Changelog
 
+## v1.0.3 (20240301)
+
+Feature
+
+- Add WGET_OPTION
+
 ## v1.0.2 (20231101)
 
 Feature
