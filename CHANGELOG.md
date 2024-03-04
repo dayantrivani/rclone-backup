@@ -1,10 +1,14 @@
 # Changelog
 
+## v1.0.5 (20240304)
+
+chore: document update
+
 ## v1.0.4 (20240304)
 
 Feature
 
-- Use wget in apk instead of busybox wget
+- Use gnu wget instead of busybox multi-call binary wget
 
 ## v1.0.3 (20240301)
 

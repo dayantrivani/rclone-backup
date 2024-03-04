@@ -178,7 +178,7 @@ Use [healthcheck.io](https://healthchecks.io/) url or similar cron monitoring to
 
 #### WGET_OPTION
 
-Options used in wget, for example, `-Y on` toggles proxy on for wget in busybox. Call `wget --help` for more information.
+Options used in wget, for example, `-e use_proxy=yes` to use proxy. Check `wget --help` for more information.
 
 #### MAIL_SMTP_ENABLE
 
