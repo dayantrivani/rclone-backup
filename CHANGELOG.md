@@ -1,5 +1,11 @@
 # Changelog
 
+## v1.0.4 (20240304)
+
+Feature
+
+- Use wget in apk instead of busybox wget
+
 ## v1.0.3 (20240301)
 
 Feature
