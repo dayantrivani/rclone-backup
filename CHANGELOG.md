@@ -1,5 +1,9 @@
 # Changelog
 
+## v1.0.6 (20240305)
+
+bugfix: WGET_OPTION
+
 ## v1.0.5 (20240304)
 
 chore: document update

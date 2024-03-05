@@ -102,7 +102,7 @@ function send_ping() {
         return
     fi
 
-    wget "${WGET_OPTION}" "${PING_URL}" -T 15 -t 10 -O /dev/null -q
+    wget "${PING_URL}" ${WGET_OPTION} -T 15 -t 10 -O /dev/null -q
     if [[ $? != 0 ]]; then
         color red "ping sending failed"
     else
